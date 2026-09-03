@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: crash-demo
+spec:
+  containers:
+  - name: crasher
+    image: busybox:1.36
+    command: ["sh", "-c", "echo 'Mati dalam 5 detik...'; sleep 5; exit 1"]

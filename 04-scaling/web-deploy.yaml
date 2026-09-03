@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web-scale-demo
+  template:
+    metadata:
+      labels:
+        app: web-scale-demo
+    spec:
+      containers:
+      - name: web
+        image: nginx:alpine
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+          limits:
+            cpu: "200m"
+            memory: "128Mi"
+        ports:
+        - containerPort: 80
