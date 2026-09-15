@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: log-demo
+spec:
+  containers:
+  - name: log-gen
+    image: busybox:1.36
+    command: ["sh", "-c", "i=0; while true; do echo \"log ke-$i pada $(date)\"; i=$((i+1)); sleep 2; done"]

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: health-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: health-demo
+  template:
+    metadata:
+      labels:
+        app: health-demo
+    spec:
+      containers:
+      - name: web
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        command: ["sh", "-c"]
+        args:
+          - |
+            touch /tmp/healthy
+            nginx -g 'daemon off;'
+        readinessProbe:
+          exec:
+            command: ["cat", "/tmp/healthy"]
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          failureThreshold: 3
